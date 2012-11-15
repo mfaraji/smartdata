@@ -47,44 +47,12 @@ class SmartDataShell(object):
                             default=False,
                             action='store_true',
                             help=argparse.SUPPRESS)
-
-        parser.add_argument('--subject',
-                            metavar='<subject-file>',
-                            default=env('SUBJECT'),
-                            help='Defaults to env[SUBJECT]')
-
-        parser.add_argument('--verb',
-                            metavar='<verb-file>',
-                            default=env('VERB'),
-                            help='Defaults to env[VERB]')
-
-        parser.add_argument('--object',
-                            metavar='<object-file>',
-                            default=env('OBJECT'),
-                            help='Defaults to env[OBJECT]')
-
-        parser.add_argument('--object_description',
-                            metavar='<object-description-file>',
-                            default=env('OBJECT_DESCRIPTION'),
-                            help='Defaults to env[OBJECT_DESCRIPTION]')
-
-        parser.add_argument('--delivery_time',
-                            metavar='<delivery-time-file>',
-                            default=env('DELIVERY_TIME'),
-                            help='Defaults to env[DELIVERY_TIME]')
-
-        parser.add_argument('--location',
-                            metavar='<location-file>',
-                            default=env('LOCATION'),
-                            help='Defaults to env[LOCATION]')
         return parser
 
     def get_subcommand_parser(self, version):
         parser = self.get_base_parser()
-
         self.subcommands = {}
         subparsers = parser.add_subparsers(metavar='<subcommand>')
-
         try:
             actions_module = {
                 '1.0': shell_v1_0,
@@ -104,7 +72,6 @@ class SmartDataShell(object):
             desc = callback.__doc__ or ''
             help = desc.strip().split('\n')[0]
             arguments = getattr(callback, 'arguments', [])
-
             subparser = subparsers.add_parser(
                 command,
                 help=help,
@@ -125,7 +92,6 @@ class SmartDataShell(object):
 
         subcommand_parser = self.get_subcommand_parser('1.0')
         self.parser = subcommand_parser
-
         # Handle top-level --help/-h before attempting to parse
         # a command off the command line
         if not argv or options.help:
@@ -134,7 +100,7 @@ class SmartDataShell(object):
 
         # Parse args again and call whatever callback was selected
         args = subcommand_parser.parse_args(argv)
-
+        args.func(args)
         # Short-circuit and deal with help command right away.
         if args.func == self.do_help:
             self.do_help(args)
