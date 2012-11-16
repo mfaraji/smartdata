@@ -1,6 +1,6 @@
 from smartdata import utils
 from smartdata.v1_0 import command
-from smartdata.v1_0.command import generate_command
+from smartdata.v1_0.command import *
 
 @utils.arg('--subject',metavar='<subject-file>',
            default='./subject.txt',help='Defaults to ./subject.txt')
@@ -14,17 +14,21 @@ from smartdata.v1_0.command import generate_command
             default='./delivery_time.txt',help='Defaults to ./delivery_time.txt')
 @utils.arg('--location',metavar='<location-file>',
             default='./location.txt',help='Defaults to ./location.txt')
-@utils.arg('--privacy_settings',metavar='<privacy-settings-file>',
-            default='./privacy_settings.txt',help='Defaults to ./privacy_settings.txt')
+@utils.arg('--privacy_features',metavar='<privacy-features-file>',
+            default='./privacy_features.txt',help='Defaults to ./privacy_features.txt')
 @utils.arg('--elements',metavar='<elements-number>',
-            requires=True,help='Represents number of elements in a command and at least 3')
+            required=True,help='Represents number of elements in a command and at least 3')
 @utils.arg('--output',metavar='<output-file>',
             default='./output.txt',help='Defaults to ./output.txt')
 def do_generate_command(args):
-    """Generate full sentence dataset"""
-    #order = ['subject','verb','object', 'object_description']
-    if args.elements == 7:
+    """Generate full command dataset"""
+    if args.elements == '7':
         generate_command7(args)
-    if args.elements == 6:
+    elif args.elements == '6':
         generate_command6(args)
-    if args.elements == 5:
+    elif args.elements == '5':
+        generate_command5(args)
+    elif args.elements == '4':
+        generate_command4(args)
+    elif args.elements == '3':
+        generate_command3(args)
