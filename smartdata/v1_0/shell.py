@@ -16,6 +16,8 @@ from smartdata.v1_0.command import *
             default='./location.txt',help='Defaults to ./location.txt')
 @utils.arg('--privacy_features',metavar='<privacy-features-file>',
             default='./privacy_features.txt',help='Defaults to ./privacy_features.txt')
+@utils.arg('--vendor',metavar='<vendor-file>',
+            default='./vendor.txt',help='Defaults to ./vendor.txt')
 @utils.arg('--elements',metavar='<elements-number>',
             required=True,help='Represents number of elements in a command and at least 3')
 @utils.arg('--output',metavar='<output-file>',
